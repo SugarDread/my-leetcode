@@ -1,10 +1,12 @@
 package com.sugardread.leetcodeapplication.service.impl;
 
 import com.sugardread.leetcodeapplication.service.AuthenticationService;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,11 +32,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final Long jwtExpiryMs = 86400000L;
 
     @Override
-    public UserDetails authenticate(String userName, String passwordHash) {
+    public UserDetails authenticate(String username, String passwordHash) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userName, passwordHash)
+                new UsernamePasswordAuthenticationToken(username, passwordHash)
         );
-        return userDetailsService.loadUserByUsername(userName);
+        return userDetailsService.loadUserByUsername(username);
     }
 
     @Override
@@ -50,8 +52,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     }
 
+    @Override
+    public UserDetails validateToken(String token) {
+        String userName = extractUserName(token);
+        return userDetailsService.loadUserByUsername(userName);
+    }
+
     private Key getSigningKey() {
         byte[] keyBytes = secretKey.getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    private String extractUserName(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
     }
 }

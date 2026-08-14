@@ -1,31 +1,66 @@
 package com.sugardread.leetcodeapplication.config;
 
+import com.sugardread.leetcodeapplication.domain.entity.User;
+import com.sugardread.leetcodeapplication.repository.UserRepository;
+import com.sugardread.leetcodeapplication.security.CustomUserDetailsService;
+import com.sugardread.leetcodeapplication.security.JwtAuthenticationFilter;
+import com.sugardread.leetcodeapplication.service.AuthenticationService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.time.Instant;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
+        String username = "user";
+        userRepository.findByUsername(username).orElseGet(() -> {
+            User newUser = User.builder()
+                    .username("user")
+                    .email("email")
+                    .passwordHash(passwordEncoder().encode("password"))
+                    .createdAt(Instant.now())
+                    .updatedAt(Instant.now())
+                    .build();
+            return userRepository.save(newUser);
+        });
+        return new CustomUserDetailsService(userRepository);
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationService(AuthenticationService authenticationService) {
+        return new JwtAuthenticationFilter(authenticationService);
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter
+    ) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
+                ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
