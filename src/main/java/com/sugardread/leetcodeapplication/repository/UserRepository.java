@@ -1,6 +1,6 @@
-package com.sugardread.leetcodeapplication.user.repository;
+package com.sugardread.leetcodeapplication.repository;
 
-import com.sugardread.leetcodeapplication.user.entity.User;
+import com.sugardread.leetcodeapplication.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.sugardread.leetcodeapplication.user.entity;
+package com.sugardread.leetcodeapplication.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
