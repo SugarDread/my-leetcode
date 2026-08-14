@@ -10,3 +10,6 @@ spring:
     url: jdbc:postgresql://localhost:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
+
+jwt:
+  secret: Z46xNs8RTL5ueW3FRPFnR2YBpXWVdaKLY0Dj43VXB7v
