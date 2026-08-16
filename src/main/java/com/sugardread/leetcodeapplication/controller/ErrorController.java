@@ -1,6 +1,6 @@
 package com.sugardread.leetcodeapplication.controller;
 
-import com.sugardread.leetcodeapplication.domain.entity.dto.ApiErrorResponse;
+import com.sugardread.leetcodeapplication.domain.dto.ApiErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,23 +1,12 @@
 package com.sugardread.leetcodeapplication.service.impl;
 
 import com.sugardread.leetcodeapplication.service.AuthenticationService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-
-import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -26,49 +15,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
 
-    @Value("${jwt.secret}")
-    private String secretKey;
-
-    private final Long jwtExpiryMs = 86400000L;
-
     @Override
-    public UserDetails authenticate(String username, String passwordHash) {
+    public UserDetails login(String username, String password) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, passwordHash)
+                new UsernamePasswordAuthenticationToken(username, password)
         );
         return userDetailsService.loadUserByUsername(username);
-    }
-
-    @Override
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiryMs))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .compact();
-
-    }
-
-    @Override
-    public UserDetails validateToken(String token) {
-        String userName = extractUserName(token);
-        return userDetailsService.loadUserByUsername(userName);
-    }
-
-    private Key getSigningKey() {
-        byte[] keyBytes = secretKey.getBytes();
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
-
-    private String extractUserName(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.getSubject();
     }
 }

@@ -4,7 +4,6 @@ import com.sugardread.leetcodeapplication.domain.entity.User;
 import com.sugardread.leetcodeapplication.repository.UserRepository;
 import com.sugardread.leetcodeapplication.security.CustomUserDetailsService;
 import com.sugardread.leetcodeapplication.security.JwtAuthenticationFilter;
-import com.sugardread.leetcodeapplication.service.AuthenticationService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,11 +39,6 @@ public class SecurityConfig {
             return userRepository.save(newUser);
         });
         return new CustomUserDetailsService(userRepository);
-    }
-
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationService(AuthenticationService authenticationService) {
-        return new JwtAuthenticationFilter(authenticationService);
     }
 
     @Bean

@@ -1,4 +1,4 @@
-package com.sugardread.leetcodeapplication.domain.entity.dto;
+package com.sugardread.leetcodeapplication.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

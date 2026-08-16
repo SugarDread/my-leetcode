@@ -1,4 +1,4 @@
-package com.sugardread.leetcodeapplication.domain.entity.dto;
+package com.sugardread.leetcodeapplication.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoginRequest {
-    private String username;
-    private String password;
+public class AuthResponse {
+    private String token;
+    private long expiresIn;
 }
