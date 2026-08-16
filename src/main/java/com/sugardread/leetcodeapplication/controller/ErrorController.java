@@ -1,6 +1,7 @@
 package com.sugardread.leetcodeapplication.controller;
 
 import com.sugardread.leetcodeapplication.domain.dto.ApiErrorResponse;
+import com.sugardread.leetcodeapplication.exception.UserAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +43,15 @@ public class ErrorController {
                 .message("Incorrect username or password")
                 .build();
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ApiErrorResponse> UserAlreadyExistsException(UserAlreadyExistsException ex) {
+        log.error(ex.getMessage());
+        ApiErrorResponse error = ApiErrorResponse.builder()
+                .status(HttpStatus.CONFLICT.value())
+                .message("User already exists")
+                .build();
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 }

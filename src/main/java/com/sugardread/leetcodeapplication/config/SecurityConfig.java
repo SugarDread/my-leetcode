@@ -1,6 +1,5 @@
 package com.sugardread.leetcodeapplication.config;
 
-import com.sugardread.leetcodeapplication.domain.entity.User;
 import com.sugardread.leetcodeapplication.repository.UserRepository;
 import com.sugardread.leetcodeapplication.security.CustomUserDetailsService;
 import com.sugardread.leetcodeapplication.security.JwtAuthenticationFilter;
@@ -18,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.time.Instant;
 
 @Configuration
 @EnableWebSecurity
@@ -27,17 +25,6 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
-        String username = "user";
-        userRepository.findByUsername(username).orElseGet(() -> {
-            User newUser = User.builder()
-                    .username("user")
-                    .email("email")
-                    .passwordHash(passwordEncoder().encode("password"))
-                    .createdAt(Instant.now())
-                    .updatedAt(Instant.now())
-                    .build();
-            return userRepository.save(newUser);
-        });
         return new CustomUserDetailsService(userRepository);
     }
 
@@ -47,7 +34,8 @@ public class SecurityConfig {
     ) throws Exception {
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
