@@ -6,9 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.NoSuchElementException;
 
 @RestController
 @ControllerAdvice
@@ -46,12 +49,32 @@ public class ErrorController {
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ApiErrorResponse> UserAlreadyExistsException(UserAlreadyExistsException ex) {
+    public ResponseEntity<ApiErrorResponse> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         log.error(ex.getMessage());
         ApiErrorResponse error = ApiErrorResponse.builder()
                 .status(HttpStatus.CONFLICT.value())
                 .message("User already exists")
                 .build();
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ApiErrorResponse> handleNoSuchElementException(NoSuchElementException ex) {
+        log.error(ex.getMessage());
+        ApiErrorResponse error = ApiErrorResponse.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .message(ex.getMessage())
+                .build();
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<ApiErrorResponse> handleDisabledException(DisabledException ex) {
+        log.error(ex.getMessage());
+        ApiErrorResponse error = ApiErrorResponse.builder()
+                .status(HttpStatus.FORBIDDEN.value())
+                .message("User is blocked")
+                .build();
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
     }
 }

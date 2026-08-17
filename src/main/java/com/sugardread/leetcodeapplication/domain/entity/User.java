@@ -1,5 +1,6 @@
 package com.sugardread.leetcodeapplication.domain.entity;
 
+import com.sugardread.leetcodeapplication.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,4 +35,8 @@ public class User {
 
     @Column(nullable = false, name = "updated_at")
     private Instant updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 }

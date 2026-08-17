@@ -1,6 +1,7 @@
 package com.sugardread.leetcodeapplication.service.impl;
 
 import com.sugardread.leetcodeapplication.domain.entity.User;
+import com.sugardread.leetcodeapplication.domain.enums.Role;
 import com.sugardread.leetcodeapplication.exception.UserAlreadyExistsException;
 import com.sugardread.leetcodeapplication.repository.UserRepository;
 import com.sugardread.leetcodeapplication.security.CustomUserDetails;
@@ -42,6 +43,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .username(username)
                     .email(email)
                     .passwordHash(passwordEncoder.encode(password))
+                    .enabled(true)
+                    .role(Role.USER)
                     .createdAt(Instant.now())
                     .updatedAt(Instant.now())
                     .build();

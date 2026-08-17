@@ -1,8 +1,7 @@
 package com.sugardread.leetcodeapplication.security;
 
 import com.sugardread.leetcodeapplication.domain.entity.User;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,15 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Getter
-@RequiredArgsConstructor
-public class CustomUserDetails implements UserDetails {
-
-    private final User user;
+public record CustomUserDetails(User user) implements UserDetails {
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    public @NonNull Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
     }
 
     @Override
@@ -28,7 +23,7 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
-    public String getUsername() {
+    public @NonNull String getUsername() {
         return user.getUsername();
     }
 
