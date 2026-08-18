@@ -2,9 +2,7 @@ package com.sugardread.leetcodeapplication.domain.entity;
 
 import com.sugardread.leetcodeapplication.domain.enums.Difficulty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 
@@ -12,6 +10,8 @@ import java.time.Instant;
 @Table(name = "problems")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
 public class Problem {
 
