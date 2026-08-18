@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "problems")
@@ -26,6 +28,7 @@ public class Problem {
     private String slug;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Difficulty difficulty;
 
     @Column(nullable = false)
@@ -36,5 +39,13 @@ public class Problem {
 
     @Column(nullable = false, name = "updated_at")
     private Instant updatedAt;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "problem_categories",
+            joinColumns = @JoinColumn(name = "problem_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
 
 }
