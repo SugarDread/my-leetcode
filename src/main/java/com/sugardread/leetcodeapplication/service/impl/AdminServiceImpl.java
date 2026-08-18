@@ -7,6 +7,8 @@ import com.sugardread.leetcodeapplication.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
@@ -17,6 +19,7 @@ public class AdminServiceImpl implements AdminService {
     public void changeUserEnable(String username, boolean enable) {
         User user = userRepository.findByUsername(username).orElseThrow();
         user.setEnabled(enable);
+        user.setUpdatedAt(Instant.now());
         userRepository.save(user);
     }
 
@@ -24,6 +27,7 @@ public class AdminServiceImpl implements AdminService {
     public void changeUserRole(String username, Role role) {
         User user = userRepository.findByUsername(username).orElseThrow();
         user.setRole(role);
+        user.setUpdatedAt(Instant.now());
         userRepository.save(user);
     }
 }

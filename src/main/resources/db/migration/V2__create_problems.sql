@@ -1,0 +1,9 @@
+CREATE TABLE problems (
+    id BIGSERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL UNIQUE,
+    slug VARCHAR(50) NOT NULL UNIQUE,
+    difficulty VARCHAR(50) NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL
+)
