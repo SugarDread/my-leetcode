@@ -5,6 +5,7 @@ import com.sugardread.leetcodeapplication.domain.dto.AuthResponse;
 import com.sugardread.leetcodeapplication.domain.dto.RegisterRequest;
 import com.sugardread.leetcodeapplication.service.JwtService;
 import com.sugardread.leetcodeapplication.service.AuthenticationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,7 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         UserDetails userDetails = authenticationService.login(
                 loginRequest.getUsername(),
                 loginRequest.getPassword()
@@ -35,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
         UserDetails userDetails = authenticationService.register(
                 registerRequest.getUsername(),
                 registerRequest.getEmail(),

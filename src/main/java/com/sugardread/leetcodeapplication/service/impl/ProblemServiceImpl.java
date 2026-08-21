@@ -38,7 +38,6 @@ public class ProblemServiceImpl implements ProblemService {
 
     @Override
     public ProblemDto createProblem(ProblemDto problemToCreate) {
-        // TODO: проверить на существование проблемы
         Set<Category> categorySet = problemToCreate.getCategorySlugs()
                 .stream()
                 .map(slug -> categoryRepository.findBySlug(slug).orElseThrow(

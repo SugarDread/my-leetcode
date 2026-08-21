@@ -2,6 +2,7 @@ package com.sugardread.leetcodeapplication.controller;
 
 import com.sugardread.leetcodeapplication.domain.dto.ProblemDto;
 import com.sugardread.leetcodeapplication.service.ProblemService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class ProblemController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ProblemDto> createProblem(@RequestBody ProblemDto problemToCreate) {
+    public ResponseEntity<ProblemDto> createProblem(@Valid @RequestBody ProblemDto problemToCreate) {
         ProblemDto createdProblem = problemService.createProblem(problemToCreate);
         return ResponseEntity.ok(createdProblem);
 

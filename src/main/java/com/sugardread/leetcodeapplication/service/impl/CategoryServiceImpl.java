@@ -26,7 +26,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto createCategory(CategoryDto categoryDto) {
-        // TODO: проверить на существование категорию
         return CategoryMapper.toDto(
                 categoryRepository.save(
                         CategoryMapper.toEntity(categoryDto)

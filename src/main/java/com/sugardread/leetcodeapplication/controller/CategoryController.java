@@ -2,6 +2,7 @@ package com.sugardread.leetcodeapplication.controller;
 
 import com.sugardread.leetcodeapplication.domain.dto.CategoryDto;
 import com.sugardread.leetcodeapplication.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class CategoryController {
 
     @PostMapping("/create")
     public ResponseEntity<CategoryDto> createCategories(
-            @RequestBody CategoryDto categoryToCreate
+            @Valid @RequestBody CategoryDto categoryToCreate
     ) {
         CategoryDto createdCategory = categoryService.createCategory(categoryToCreate);
         return ResponseEntity.ok(createdCategory);
