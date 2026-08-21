@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,4 +18,5 @@ public class ProblemDto {
     private String slug;
     private Difficulty difficulty;
     private String description;
+    private Set<String> categorySlugs;
 }

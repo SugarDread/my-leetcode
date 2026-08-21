@@ -4,10 +4,7 @@ import com.sugardread.leetcodeapplication.domain.dto.ProblemDto;
 import com.sugardread.leetcodeapplication.service.ProblemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +25,12 @@ public class ProblemController {
     public ResponseEntity<List<ProblemDto>> getAllProblemsByCategory(@PathVariable String category) {
         List<ProblemDto> problems = problemService.getAllProblemsByCategory(category);
         return ResponseEntity.ok(problems);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<ProblemDto> createProblem(@RequestBody ProblemDto problemToCreate) {
+        ProblemDto createdProblem = problemService.createProblem(problemToCreate);
+        return ResponseEntity.ok(createdProblem);
+
     }
 }

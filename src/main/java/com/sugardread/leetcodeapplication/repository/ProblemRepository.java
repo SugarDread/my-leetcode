@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProblemRepository extends JpaRepository<Problem, Long> {
     @Query("SELECT p FROM Problem p LEFT JOIN FETCH p.categories")
@@ -20,4 +21,5 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
             ")")
     List<Problem> findProblemsByCategory(@Param("slug") String slug);
 
+    Optional<Problem> findProblemBySlug(String slug);
 }
