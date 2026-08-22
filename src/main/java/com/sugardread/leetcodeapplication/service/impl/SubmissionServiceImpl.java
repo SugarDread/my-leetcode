@@ -2,7 +2,6 @@ package com.sugardread.leetcodeapplication.service.impl;
 
 import com.sugardread.leetcodeapplication.domain.dto.SubmissionDto;
 import com.sugardread.leetcodeapplication.domain.entity.Submission;
-import com.sugardread.leetcodeapplication.domain.enums.ProgrammingLanguage;
 import com.sugardread.leetcodeapplication.domain.enums.SubmissionStatus;
 import com.sugardread.leetcodeapplication.mapper.SubmissionMapper;
 import com.sugardread.leetcodeapplication.repository.ProblemRepository;

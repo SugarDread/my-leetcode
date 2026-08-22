@@ -1,8 +1,6 @@
 package com.sugardread.leetcodeapplication.mapper;
 
-import com.sugardread.leetcodeapplication.domain.dto.CategoryDto;
 import com.sugardread.leetcodeapplication.domain.dto.SubmissionDto;
-import com.sugardread.leetcodeapplication.domain.entity.Category;
 import com.sugardread.leetcodeapplication.domain.entity.Submission;
 import org.springframework.stereotype.Component;
 

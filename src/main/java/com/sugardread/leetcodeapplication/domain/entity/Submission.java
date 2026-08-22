@@ -9,7 +9,6 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "submissions")
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

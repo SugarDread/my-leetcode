@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -47,5 +48,12 @@ public class Problem {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories = new HashSet<>();
+
+    @OneToMany(
+            mappedBy = "problem",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<TestCase> testCases;
 
 }
