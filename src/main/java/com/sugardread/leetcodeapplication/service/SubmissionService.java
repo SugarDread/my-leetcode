@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SubmissionService {
     SubmissionDto submit(SubmissionDto submissionDto, String username);
-    List<SubmissionDto> getAllSubmissionsByUser();
+    List<SubmissionDto> getAllSubmissionsByUser(String username);
 }

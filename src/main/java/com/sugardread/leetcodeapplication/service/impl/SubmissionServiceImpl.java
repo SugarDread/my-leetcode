@@ -2,6 +2,7 @@ package com.sugardread.leetcodeapplication.service.impl;
 
 import com.sugardread.leetcodeapplication.domain.dto.SubmissionDto;
 import com.sugardread.leetcodeapplication.domain.entity.Submission;
+import com.sugardread.leetcodeapplication.domain.entity.User;
 import com.sugardread.leetcodeapplication.domain.enums.SubmissionStatus;
 import com.sugardread.leetcodeapplication.mapper.SubmissionMapper;
 import com.sugardread.leetcodeapplication.repository.ProblemRepository;
@@ -42,7 +43,11 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public List<SubmissionDto> getAllSubmissionsByUser() {
-        return List.of();
+    public List<SubmissionDto> getAllSubmissionsByUser(String username) {
+        List<Submission> submissions = submissionRepository.findAllByUser_Username(username);
+        return submissions.stream()
+                .map(SubmissionMapper::toDto)
+                .toList();
+
     }
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -31,7 +32,7 @@ public class ProblemController {
     @PostMapping("/create")
     public ResponseEntity<ProblemDto> createProblem(@Valid @RequestBody ProblemDto problemToCreate) {
         ProblemDto createdProblem = problemService.createProblem(problemToCreate);
-        return ResponseEntity.ok(createdProblem);
+        return ResponseEntity.created(URI.create("/api/v1/problems/" + createdProblem.getSlug())).body(createdProblem);
 
     }
 }
